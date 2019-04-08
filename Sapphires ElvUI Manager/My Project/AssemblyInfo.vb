@@ -9,8 +9,8 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("Sapphires ElvUI Manager")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyDescription("An updater for ElvUI")>
+<Assembly: AssemblyCompany("SplitSecond")>
 <Assembly: AssemblyProduct("Sapphires ElvUI Manager")>
 <Assembly: AssemblyCopyright("Copyright ©  2019")>
 <Assembly: AssemblyTrademark("")>
@@ -32,4 +32,4 @@ Imports System.Runtime.InteropServices
 ' <Assembly: AssemblyVersion("1.0.*")>
 
 <Assembly: AssemblyVersion("1.0.0.0")>
-<Assembly: AssemblyFileVersion("1.0.0.0")>
+<Assembly: AssemblyFileVersion("0.0.0.1")>
