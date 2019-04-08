@@ -64,7 +64,7 @@ Public Class Form1
         Catch ex As Exception
         End Try
 
-
+        ' I should probably do something with this in the future, like an anti-nag
         CheckForElvUI_PUBLIC_Update()
 
     End Sub
