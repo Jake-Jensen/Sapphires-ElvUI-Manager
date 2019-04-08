@@ -22,16 +22,18 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ReleaseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.DevelopmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UtilitiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CheckForUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InstallUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InstallWithoutCheckingVersionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DevelopmentToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InstallLatestBuildToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UtilitiesToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.DeveloperCreditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UninstallElvUIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -40,7 +42,7 @@ Partial Class Form1
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReleaseToolStripMenuItem, Me.DevelopmentToolStripMenuItem, Me.UtilitiesToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(800, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(484, 24)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -50,20 +52,6 @@ Partial Class Form1
         Me.ReleaseToolStripMenuItem.Name = "ReleaseToolStripMenuItem"
         Me.ReleaseToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
         Me.ReleaseToolStripMenuItem.Text = "Release"
-        '
-        'DevelopmentToolStripMenuItem
-        '
-        Me.DevelopmentToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UpdateToolStripMenuItem})
-        Me.DevelopmentToolStripMenuItem.Name = "DevelopmentToolStripMenuItem"
-        Me.DevelopmentToolStripMenuItem.Size = New System.Drawing.Size(90, 20)
-        Me.DevelopmentToolStripMenuItem.Text = "Development"
-        '
-        'UtilitiesToolStripMenuItem
-        '
-        Me.UtilitiesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeveloperCreditToolStripMenuItem})
-        Me.UtilitiesToolStripMenuItem.Name = "UtilitiesToolStripMenuItem"
-        Me.UtilitiesToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
-        Me.UtilitiesToolStripMenuItem.Text = "Utilities"
         '
         'CheckForUpdateToolStripMenuItem
         '
@@ -84,6 +72,13 @@ Partial Class Form1
         Me.InstallWithoutCheckingVersionToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InstallWithoutCheckingVersionToolStripMenuItem.Text = "Install latest update"
         '
+        'DevelopmentToolStripMenuItem
+        '
+        Me.DevelopmentToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UpdateToolStripMenuItem})
+        Me.DevelopmentToolStripMenuItem.Name = "DevelopmentToolStripMenuItem"
+        Me.DevelopmentToolStripMenuItem.Size = New System.Drawing.Size(90, 20)
+        Me.DevelopmentToolStripMenuItem.Text = "Development"
+        '
         'UpdateToolStripMenuItem
         '
         Me.UpdateToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InstallLatestBuildToolStripMenuItem})
@@ -97,20 +92,39 @@ Partial Class Form1
         Me.InstallLatestBuildToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InstallLatestBuildToolStripMenuItem.Text = "Install latest build"
         '
+        'UtilitiesToolStripMenuItem
+        '
+        Me.UtilitiesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeveloperCreditToolStripMenuItem, Me.UninstallElvUIToolStripMenuItem})
+        Me.UtilitiesToolStripMenuItem.Name = "UtilitiesToolStripMenuItem"
+        Me.UtilitiesToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
+        Me.UtilitiesToolStripMenuItem.Text = "Utilities"
+        '
         'DeveloperCreditToolStripMenuItem
         '
         Me.DeveloperCreditToolStripMenuItem.Name = "DeveloperCreditToolStripMenuItem"
         Me.DeveloperCreditToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DeveloperCreditToolStripMenuItem.Text = "Developer Credit"
         '
+        'UninstallElvUIToolStripMenuItem
+        '
+        Me.UninstallElvUIToolStripMenuItem.Name = "UninstallElvUIToolStripMenuItem"
+        Me.UninstallElvUIToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.UninstallElvUIToolStripMenuItem.Text = "Uninstall ElvUI"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Black
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.BackgroundImage = Global.Sapphires_ElvUI_Manager.My.Resources.Resources.splitsecond_logo
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.ClientSize = New System.Drawing.Size(484, 261)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.DoubleBuffered = True
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
+        Me.MaximumSize = New System.Drawing.Size(500, 300)
+        Me.MinimumSize = New System.Drawing.Size(500, 300)
         Me.Name = "Form1"
         Me.Text = "Sapphire's ElvUI Manager"
         Me.MenuStrip1.ResumeLayout(False)
@@ -130,4 +144,5 @@ Partial Class Form1
     Friend WithEvents InstallLatestBuildToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UtilitiesToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DeveloperCreditToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents UninstallElvUIToolStripMenuItem As ToolStripMenuItem
 End Class

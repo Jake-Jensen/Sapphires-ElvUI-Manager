@@ -66,7 +66,6 @@ Public Class Form1
 
 
         CheckForElvUI_PUBLIC_Update()
-        CheckForElvUI_DEVELOPMENT_Update()
 
     End Sub
 
@@ -110,24 +109,44 @@ Public Class Form1
 
     End Sub
 
-    Private Sub CheckForElvUI_DEVELOPMENT_Update()
-        ' Gitlab is a cunt to work with, so I'm just skipping the version checking and allowing users to update to the latest version without any bullshit.
-
-        ' Dim sourceString As String = New System.Net.WebClient().DownloadString("https://git.tukui.org/elvui/elvui/blob/development/ElvUI/ElvUI.toc")
-        ' Dim FindStart = (sourceString.IndexOf("## Version: "))
-        ' Debug.WriteLine("FindStart: " & FindStart)
-        ' FindStart = FindStart + 1
-        ' Dim DownloadHREF = Mid(sourceString, FindStart, 13)
-        ' Debug.WriteLine("Scraped data: " & DownloadHREF)
-        ' Debug.WriteLine("Latest development version: " & LatestPublicVersion)
-    End Sub
-
     Private Sub CheckForUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CheckForUpdateToolStripMenuItem.Click
         CheckForElvUI_PUBLIC_Update()
     End Sub
 
-    Private Sub InstallWithoutCheckingVersionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InstallWithoutCheckingVersionToolStripMenuItem.Click
+    Private Sub Updater(ByRef IsDevelopment)
+        DeletePreviousInstall()
 
+        If IsDevelopment = False Then
+            UpdateRelease()
+        Else
+            UpdateDevelopment()
+        End If
+
+    End Sub
+
+    Private Sub DeletePreviousInstall()
+        If My.Computer.FileSystem.FileExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip") Then
+            My.Computer.FileSystem.DeleteFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip")
+        End If
+        If My.Computer.FileSystem.FileExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip") Then
+            My.Computer.FileSystem.DeleteFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip")
+        End If
+        If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI") Then
+            My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+        If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config") Then
+            My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+        If My.Computer.FileSystem.DirectoryExists(My.Settings.PathToWoW + "ElvUI") Then
+            My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+
+        If My.Computer.FileSystem.DirectoryExists(My.Settings.PathToWoW + "ElvUI_Config") Then
+            My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
+        End If
+
+    End Sub
+    Private Sub UpdateRelease()
         Dim sourceString As String = New System.Net.WebClient().DownloadString("https://www.tukui.org/download.php?ui=elvui")
         '
         Dim FindStart = (sourceString.IndexOf("/downloads/elvui-"))
@@ -144,16 +163,6 @@ Public Class Form1
         End If
 
         If My.Settings.IsElvUIInstalled = True Then
-            If My.Computer.FileSystem.FileExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip") Then
-                My.Computer.FileSystem.DeleteFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip")
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-
             Dim IsDownloading = False
 
             My.Computer.Network.DownloadFile("https://www.tukui.org" + GV.DownloadVersion, "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip") ' Begin the download, and save to our location.
@@ -170,38 +179,13 @@ Public Class Form1
             End While
 
             My.Computer.FileSystem.MoveFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiMOVE.zip", "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip") ' Move it back to the original name.
-
-            ' Delete the files from the addon dir
-            ' This really should be an if statement, but it was done in a hurry, and a try block does what's needed without fuss.
-            Try
-                My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            Catch ex As Exception
-
-            End Try
-
-            Try
-                My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            Catch ex As Exception
-
-            End Try
-
-
             ' Extract the downloaded zip to the addons directory. 
             Dim zipPath As String = "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip"
 
             ZipFile.ExtractToDirectory(zipPath, My.Settings.PathToWoW)
             MsgBox("Done updating.")
-        Else
 
-            If My.Computer.FileSystem.FileExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip") Then
-                My.Computer.FileSystem.DeleteFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip")
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
+        Else
 
             Dim IsDownloading = False
 
@@ -219,22 +203,6 @@ Public Class Form1
             End While
 
             My.Computer.FileSystem.MoveFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiMOVE.zip", "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip") ' Move it back to the original name.
-
-            ' Delete the files from the addon dir
-            ' This really should be an if statement, but it was done in a hurry, and a try block does what's needed without fuss.
-            Try
-                My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            Catch ex As Exception
-
-            End Try
-
-            Try
-                My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            Catch ex As Exception
-
-            End Try
-
-
             ' Extract the downloaded zip to the addons directory. 
             Dim zipPath As String = "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\Elvui.zip"
 
@@ -243,18 +211,8 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub InstallLatestBuildToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InstallLatestBuildToolStripMenuItem.Click
-
+    Private Sub UpdateDevelopment()
         If My.Settings.IsElvUIInstalled = True Then
-            If My.Computer.FileSystem.FileExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip") Then
-                My.Computer.FileSystem.DeleteFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip")
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
 
             Dim IsDownloading = False
 
@@ -272,15 +230,6 @@ Public Class Form1
             End While
 
             My.Computer.FileSystem.MoveFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiMOVE.zip", "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip") ' Move it back to the original name.
-
-            ' Delete the files from the addon dir
-            ' This really should be an if statement, but it was done in a hurry, and a try block does what's needed without fuss.
-            Try
-                My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            Catch ex As Exception
-
-            End Try
-
 
             ' Extract the downloaded zip to the addons directory. 
             Dim zipPath As String = "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip"
@@ -290,15 +239,6 @@ Public Class Form1
             MsgBox("Done updating.")
 
         Else
-            If My.Computer.FileSystem.FileExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip") Then
-                My.Computer.FileSystem.DeleteFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip")
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
-            If My.Computer.FileSystem.DirectoryExists("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config") Then
-                My.Computer.FileSystem.DeleteDirectory("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvUI_Config", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            End If
 
             Dim IsDownloading = False
 
@@ -316,15 +256,6 @@ Public Class Form1
             End While
 
             My.Computer.FileSystem.MoveFile("C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiMOVE.zip", "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip") ' Move it back to the original name.
-
-            ' Delete the files from the addon dir
-            ' This really should be an if statement, but it was done in a hurry, and a try block does what's needed without fuss.
-            Try
-                My.Computer.FileSystem.DeleteDirectory(My.Settings.PathToWoW + "ElvUI", FileIO.DeleteDirectoryOption.DeleteAllContents)
-            Catch ex As Exception
-
-            End Try
-
 
             ' Extract the downloaded zip to the addons directory. 
             Dim zipPath As String = "C:\Program Files (x86)\SplitSecond\ElvUI_Updater\ElvuiDEV.zip"
@@ -336,7 +267,25 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub InstallWithoutCheckingVersionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InstallWithoutCheckingVersionToolStripMenuItem.Click
+        Updater(False)
+    End Sub
+
+    Private Sub InstallLatestBuildToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles InstallLatestBuildToolStripMenuItem.Click
+        Updater(True)
+    End Sub
+
     Private Sub DeveloperCreditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperCreditToolStripMenuItem.Click
         MsgBox("Written by Jake Jensen, 2019" & vbNewLine & "SapphireStab- Zul'Jin")
+    End Sub
+
+    Private Sub UninstallElvUIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UninstallElvUIToolStripMenuItem.Click
+        DialogResult = MsgBox("Are you sure?", MsgBoxStyle.YesNo)
+        If DialogResult = DialogResult.Yes Then
+            DeletePreviousInstall()
+        ElseIf DialogResult = DialogResult.No Then
+            ' Just do nothing and exit the sub.
+            Exit Sub
+        End If
     End Sub
 End Class
