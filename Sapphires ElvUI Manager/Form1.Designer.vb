@@ -31,6 +31,7 @@ Partial Class Form1
         Me.InstallWithoutCheckingVersionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.InstallLatestBuildToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeveloperCreditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -59,6 +60,7 @@ Partial Class Form1
         '
         'UtilitiesToolStripMenuItem
         '
+        Me.UtilitiesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeveloperCreditToolStripMenuItem})
         Me.UtilitiesToolStripMenuItem.Name = "UtilitiesToolStripMenuItem"
         Me.UtilitiesToolStripMenuItem.Size = New System.Drawing.Size(58, 20)
         Me.UtilitiesToolStripMenuItem.Text = "Utilities"
@@ -95,6 +97,12 @@ Partial Class Form1
         Me.InstallLatestBuildToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.InstallLatestBuildToolStripMenuItem.Text = "Install latest build"
         '
+        'DeveloperCreditToolStripMenuItem
+        '
+        Me.DeveloperCreditToolStripMenuItem.Name = "DeveloperCreditToolStripMenuItem"
+        Me.DeveloperCreditToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.DeveloperCreditToolStripMenuItem.Text = "Developer Credit"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -121,4 +129,5 @@ Partial Class Form1
     Friend WithEvents UpdateToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents InstallLatestBuildToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UtilitiesToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DeveloperCreditToolStripMenuItem As ToolStripMenuItem
 End Class

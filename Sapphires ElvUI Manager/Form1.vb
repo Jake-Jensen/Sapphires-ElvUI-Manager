@@ -335,4 +335,8 @@ Public Class Form1
             MsgBox("Done updating.")
         End If
     End Sub
+
+    Private Sub DeveloperCreditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeveloperCreditToolStripMenuItem.Click
+        MsgBox("Written by Jake Jensen, 2019" & vbNewLine & "SapphireStab- Zul'Jin")
+    End Sub
 End Class
